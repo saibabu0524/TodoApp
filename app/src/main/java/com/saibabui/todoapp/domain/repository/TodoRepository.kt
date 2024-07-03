@@ -14,11 +14,9 @@ interface TodoRepository {
 
     suspend fun getTodoById(id: Int): TaskDetails?
 
-    suspend fun getTodos(): MutableList<TaskDetails>?
+    suspend fun getTodos(): Flow<MutableList<TaskDetails>>?
 
     suspend fun completedTodo(taskId: Int) : Boolean
 
-    suspend fun getCompletedTodos(): MutableList<TaskDetails>?
-
-
+    suspend fun getCompletedTodos(): Flow<MutableList<TaskDetails>>
 }

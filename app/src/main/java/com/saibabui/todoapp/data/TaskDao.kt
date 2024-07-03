@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.saibabui.todoapp.data.model.TaskDetails
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -19,7 +20,7 @@ interface TaskDao {
     suspend fun delete(taskId: Int)
 
     @Query("SELECT * FROM task_details_table WHERE taskStatus = 0")
-    suspend fun getAllTasks(): MutableList<TaskDetails>
+    fun getAllTasks(): Flow<MutableList<TaskDetails>>
 
     @Query("SELECT * FROM task_details_table WHERE taskId = :taskId")
     suspend fun getTaskById(taskId: Int): TaskDetails?
@@ -28,6 +29,6 @@ interface TaskDao {
     suspend fun completeTask(taskId: Int, status: Boolean)
 
     @Query("SELECT * FROM task_details_table WHERE taskStatus = :status")
-    suspend fun getCompletedTasks(status: Boolean): MutableList<TaskDetails>
+    fun getCompletedTasks(status: Boolean): Flow<MutableList<TaskDetails>>
 
 }

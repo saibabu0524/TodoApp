@@ -48,7 +48,7 @@ class TodoRepositoryImpl @Inject constructor(
         return todoDao.getTaskById(id)
     }
 
-    override suspend fun getTodos(): MutableList<TaskDetails> {
+    override suspend fun getTodos(): Flow<MutableList<TaskDetails>> {
         return todoDao.getAllTasks()
     }
 
@@ -64,7 +64,7 @@ class TodoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCompletedTodos(): MutableList<TaskDetails>? {
+    override suspend fun getCompletedTodos(): Flow<MutableList<TaskDetails>> {
         return todoDao.getCompletedTasks(true)
     }
 

@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -30,8 +31,12 @@ class AddTodoViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _todoList.value = todoRepository.getTodos() ?: mutableListOf()
-                _completedList.value = todoRepository.getCompletedTodos() ?: mutableListOf()
+                todoRepository.getTodos()?.collectLatest {
+                    _todoList.value = it
+                }
+                todoRepository.getCompletedTodos().collectLatest {
+                    _completedList.value = it
+                }
             }
         }
     }
@@ -78,12 +83,6 @@ class AddTodoViewModel @Inject constructor(
                     _updateTodo.value = UiState.Success(
                         task
                     )
-                    _todoList.value.map {
-                        if (it.taskId == taskId) {
-                            it.taskTitle = title
-                            it.taskDescription = description
-                        }
-                    }
                 } else {
                     _updateTodo.value = UiState.Failure("Something went wrong")
                 }
@@ -101,7 +100,6 @@ class AddTodoViewModel @Inject constructor(
                 val result = todoRepository.addTodo(task)
                 if (result) {
                     _addTodo.value = UiState.Success(task)
-                    _todoList.value.add(task)
                 } else {
                     _addTodo.value = UiState.Failure("Something went wrong")
                 }
@@ -125,9 +123,6 @@ class AddTodoViewModel @Inject constructor(
                 val result = todoRepository.deleteTodo(taskId)
                 if (result) {
                     _deleteTodo.value = UiState.Success(task)
-                    _todoList.update { currentList ->
-                        currentList.filterNot { it.taskId == taskId }.toMutableList()
-                    }
                 } else {
                     _deleteTodo.value = UiState.Failure("Something went wrong")
                 }
@@ -150,13 +145,6 @@ class AddTodoViewModel @Inject constructor(
                 val result = todoRepository.completedTodo(taskId)
                 if (result) {
                     _completedTodo.value = UiState.Success(task)
-                    _todoList.value.find {
-                        it.taskId == taskId
-                    }?.let {
-                        it.taskStatus = true
-                        _todoList.value.remove(it)
-                        _completedList.value.add(it)
-                    }
                 } else {
                     _completedTodo.value = UiState.Failure("Something went wrong")
                     return@launch
