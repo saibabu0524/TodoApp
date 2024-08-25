@@ -11,7 +11,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,17 +29,14 @@ fun CompletedTodoScreen(
     paddingValues: PaddingValues,
     viewModel: AddTodoViewModel
 ) {
-
-
-    val completedTodo = viewModel.completedList.collectAsState()
-
-
-
-
-
+    val completedTodo by viewModel.completedList.collectAsState()
+    LaunchedEffect(key1 = completedTodo) {
+        viewModel.fetchCompletedTodos()
+        println("completedTodo FETCHED")
+    }
     LazyColumn(modifier = Modifier.padding(paddingValues)) {
-        items(completedTodo.value.size) {
-            val todo = completedTodo.value[it]
+        items(completedTodo.size) {
+            val todo = completedTodo[it]
             CompletedTodoCard(
                 title = todo.taskTitle,
                 description = todo.taskDescription)

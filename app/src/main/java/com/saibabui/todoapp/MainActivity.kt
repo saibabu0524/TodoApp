@@ -106,12 +106,15 @@ class MainActivity : ComponentActivity() {
                         }
                     }, floatingActionButton = {
                         when (screen) {
-                            Routes.AddTodoScreen -> Unit
+                            Routes.AddTodoScreen -> {
+                            }
                             Routes.CompletedTodoScreen -> {
                                 CustomFab(navController = navController)
                             }
 
-                            Routes.EditTodoScreen -> Unit
+                            Routes.EditTodoScreen -> {
+
+                            }
                             Routes.TodoScreen -> {
                                 CustomFab(navController = navController)
                             }

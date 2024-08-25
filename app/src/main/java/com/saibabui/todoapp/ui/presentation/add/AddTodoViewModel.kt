@@ -34,7 +34,14 @@ class AddTodoViewModel @Inject constructor(
                 todoRepository.getTodos()?.collectLatest {
                     _todoList.value = it
                 }
-                todoRepository.getCompletedTodos().collectLatest {
+            }
+        }
+    }
+
+    fun fetchCompletedTodos() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                todoRepository.getCompletedTodos()?.collectLatest {
                     _completedList.value = it
                 }
             }
@@ -153,5 +160,9 @@ class AddTodoViewModel @Inject constructor(
                 _completedTodo.value = UiState.Failure(e.message ?: "Unknown Error")
             }
         }
+    }
+
+    fun initialiseEmptyState() {
+        _addTodo.value = UiState.Empty
     }
 }

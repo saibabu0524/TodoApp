@@ -25,10 +25,10 @@ interface TaskDao {
     @Query("SELECT * FROM task_details_table WHERE taskId = :taskId")
     suspend fun getTaskById(taskId: Int): TaskDetails?
 
-    @Query("UPDATE task_details_table SET taskStatus = :status WHERE taskId = :taskId")
-    suspend fun completeTask(taskId: Int, status: Boolean)
+    @Query("UPDATE task_details_table SET taskStatus = 1 WHERE taskId = :taskId")
+    suspend fun completeTask(taskId: Int)
 
-    @Query("SELECT * FROM task_details_table WHERE taskStatus = :status")
-    fun getCompletedTasks(status: Boolean): Flow<MutableList<TaskDetails>>
+    @Query("SELECT * FROM task_details_table WHERE taskStatus = 1")
+    fun getCompletedTasks(): Flow<MutableList<TaskDetails>>
 
 }

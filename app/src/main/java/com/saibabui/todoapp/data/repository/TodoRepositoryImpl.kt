@@ -55,9 +55,7 @@ class TodoRepositoryImpl @Inject constructor(
     override suspend fun completedTodo(taskId: Int): Boolean {
         try {
             todoDao.completeTask(
-                taskId = taskId,
-                status = true
-            )
+                taskId = taskId)
             return true
         } catch (e: Exception) {
             return false
@@ -65,7 +63,7 @@ class TodoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCompletedTodos(): Flow<MutableList<TaskDetails>> {
-        return todoDao.getCompletedTasks(true)
+        return todoDao.getCompletedTasks()
     }
 
 }

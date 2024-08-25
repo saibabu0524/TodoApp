@@ -51,6 +51,7 @@ fun AddTaskScreen(
         if (addTodoState is UiState.Success) {
             navController.popBackStack()
             onSuccesful((addTodoState as UiState.Success).data)
+            homeViewModel.initialiseEmptyState()
         }
         if (addTodoState is UiState.Failure) {
             snackbarHostState.showSnackbar((addTodoState as UiState.Failure).error)
