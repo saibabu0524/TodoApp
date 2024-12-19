@@ -3,10 +3,10 @@
 A modern **Todo List Android App** built using **Jetpack Compose**, **Room Database**, **Kotlin Flows**, and **Coroutines**. This app allows users to manage their daily tasks efficiently with a clean and simple UI.
 
 ## 📸 Screenshots
-<img src="images/list_of_todos.png" alt="List of Todos" width="300"/>  
 <img src="images/splace.png" alt="Splash Screen" width="300"/>  
-<img src="images/update_todo.png" alt="Update Todo Screen" width="300"/>  
 <img src="images/add_todo.png" alt="Update Todo Screen" width="300"/>  
+<img src="images/list_of_todos.png" alt="List of Todos" width="300"/>  
+<img src="images/update_todo.png" alt="Update Todo Screen" width="300"/>  
 
 
 ---
